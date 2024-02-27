@@ -18,3 +18,9 @@ const typeDefs = `
         books: [Book]
     }
 `;
+
+const resolvers = {
+	Query: {
+		books: () => books,
+	},
+};
