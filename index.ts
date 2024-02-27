@@ -8,3 +8,13 @@ const books = [
 		author: 'Dan Brown',
 	},
 ];
+
+const typeDefs = `
+    type Book {
+        title: String
+        author: String
+    }
+    type Query {
+        books: [Book]
+    }
+`;
