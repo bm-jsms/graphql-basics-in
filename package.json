@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"compile": "tsc",
-		"start": "pnpm run compile && node ./dist/index.js"
+		"start": "pnpm compile && node ./dist/index.js"
 	},
 	"keywords": [],
 	"author": "",
