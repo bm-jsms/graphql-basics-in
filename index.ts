@@ -1,3 +1,7 @@
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { log } from 'console';
+
 const books = [
 	{
 		title: 'The Great Gatsby',
@@ -24,3 +28,5 @@ const resolvers = {
 		books: () => books,
 	},
 };
+
+const server = new ApolloServer({ typeDefs, resolvers });
