@@ -23,6 +23,40 @@ const users = [
 	},
 ];
 
+const typeDefs = `
+  type Query {
+	users: [User]
+  }
+
+  type User {
+	id: ID!
+	name: String
+	surname: String
+	street: String
+	zip: String
+	city: String
+	phone: String
+  }
+
+  type Query {
+	allUsers: [User]
+	userCount: Int
+	findUser(name: String!): User
+	findUserById(id: ID!): User
+  }
+  
+  type Mutation {
+	addUser(
+		name: String!,
+		surname: String!,
+		street: String!,
+		zip: String!,
+		city: String!,
+		phone: String!
+	): User
+  }
+`;
+
 const server = new ApolloServer({ typeDefs, resolvers });
 
 const { url } = await startStandaloneServer(server, {
