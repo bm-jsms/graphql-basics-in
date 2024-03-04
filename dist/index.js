@@ -23,14 +23,10 @@ const users = [
     },
 ];
 const typeDefs = `
-  type Query {
-	users: [User]
-  }
-
   type User {
 	id: ID!
-	name: String
-	surname: String
+	name: String!
+	surname: String!
 	street: String
 	zip: String
 	city: String
@@ -40,7 +36,7 @@ const typeDefs = `
 
   type Query {
 	allUsers: [User]
-	userCount: Int
+	userCount: Int @deprecated(reason: "Use allUsers instead")
 	findUser(name: String!): User
 	findUserById(id: ID!): User
   }
