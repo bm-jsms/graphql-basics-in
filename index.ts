@@ -1,6 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { v1 as uuid } from 'uuid';
+import { GraphQLError } from 'graphql';
 
 const users = [
 	{
@@ -59,28 +60,25 @@ const typeDefs = `
 `;
 
 const resolvers = {
+	User: {
+		address: parent => `${parent.street}, ${parent.zip} ${parent.city}`,
+	},
 	Query: {
-		users: () => users,
 		allUsers: () => users,
 		userCount: () => users.length,
-		findUser: (parent, args) => {
-			return users.find(user => user.name === args.name);
-		},
-		findUserById: (parent, args) => {
-			return users.find(user => user.id === args.id);
-		},
+		findUser: (parent, args) => users.find(user => user.name === args.name),
+		findUserById: (parent, args) => users.find(user => user.id === args.id),
 	},
 	Mutation: {
 		addUser: (parent, args) => {
-			const newUser = {
-				id: uuid(),
-				name: args.name,
-				surname: args.surname,
-				street: args.street,
-				zip: args.zip,
-				city: args.city,
-				phone: args.phone,
-			};
+			if (users.find(user => user.name === args.name)) {
+				throw new GraphQLError('The username is already taken', {
+					extensions: {
+						code: 'BAD_USER_INPUT',
+					},
+				});
+			}
+			const newUser = { id: uuid(), ...args };
 			users.push(newUser);
 			return newUser;
 		},
