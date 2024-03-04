@@ -36,6 +36,7 @@ const typeDefs = `
 	zip: String
 	city: String
 	phone: String
+	address: String
   }
 
   type Query {
@@ -56,6 +57,35 @@ const typeDefs = `
 	): User
   }
 `;
+
+const resolvers = {
+	Query: {
+		users: () => users,
+		allUsers: () => users,
+		userCount: () => users.length,
+		findUser: (parent, args) => {
+			return users.find(user => user.name === args.name);
+		},
+		findUserById: (parent, args) => {
+			return users.find(user => user.id === args.id);
+		},
+	},
+	Mutation: {
+		addUser: (parent, args) => {
+			const newUser = {
+				id: uuid(),
+				name: args.name,
+				surname: args.surname,
+				street: args.street,
+				zip: args.zip,
+				city: args.city,
+				phone: args.phone,
+			};
+			users.push(newUser);
+			return newUser;
+		},
+	},
+};
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
