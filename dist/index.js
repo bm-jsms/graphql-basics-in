@@ -20,7 +20,7 @@ const typeDefs = `
     }
     type Query {
         books: [Book]
-		book(id: ID!): Book
+		book(id: ID!): Book	
     }
 `;
 const resolvers = {
